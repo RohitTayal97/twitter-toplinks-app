@@ -3,7 +3,7 @@ const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
 const authRoutes = require("./routes/auth");
-const User = require("../models/user-model");
+const User = require("../models/users");
 const mongoose = require("mongoose");
 const cors = require("cors");
 var Strategy = require("passport-twitter").Strategy;
@@ -15,8 +15,8 @@ mongoose.connect(process.env.MONGODB_URL, () => {
 passport.use(
   new Strategy(
     {
-      consumerKey: process.env.TWITTER["TWITTER_CONSUMER_KEY"],
-      consumerSecret: process.env.TWITTER["TWITTER_CONSUMER_SECRET"],
+      consumerKey: process.env.TWITTER_CONSUMER_KEY,
+      consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
       callbackURL: "/auth/twitter/redirect",
     },
     async (token, tokenSecret, profile, callback) => {
@@ -80,5 +80,5 @@ app.get("/", authCheck, (req, res) => {
   });
 });
 
-const port = process.env["PORT"] || 4000;
+const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`Server is running on port ${port}!`));
