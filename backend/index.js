@@ -1,22 +1,22 @@
 require("dotenv").config();
 const express = require("express");
-const session = require("express-session");
+// const session = require("express-session");
 const passport = require("passport");
 const authRoutes = require("./routes/auth");
-const User = require("../models/users");
+const User = require("./models/users");
 const mongoose = require("mongoose");
 const cors = require("cors");
 var Strategy = require("passport-twitter").Strategy;
 
-mongoose.connect(process.env.MONGODB_URL, () => {
+mongoose.connect("process.env.MONGODB_URL", () => {
   console.log("connected to mongo db");
 });
 
 passport.use(
   new Strategy(
     {
-      consumerKey: process.env.TWITTER_CONSUMER_KEY,
-      consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+      consumerKey: "process.env.TWITTER_CONSUMER_KEY",
+      consumerSecret: "process.env.TWITTER_CONSUMER_SECRET",
       callbackURL: "/auth/twitter/redirect",
     },
     async (token, tokenSecret, profile, callback) => {
@@ -31,10 +31,10 @@ passport.use(
           profileImageUrl: profile._json.profile_image_url,
         }).save();
         if (newUser) {
-          callback(null, newUser);
+          return callback(null, newUser);
         }
       }
-      callback(null, currentUser);
+      return callback(null, currentUser);
     }
   )
 );
@@ -52,10 +52,11 @@ const app = express();
 app.use(
   cors({
     origin: "http://localhost:3000",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   })
 );
 
-app.use(session);
+// app.use(session);
 app.use(passport.initialize());
 app.use(passport.session());
 
