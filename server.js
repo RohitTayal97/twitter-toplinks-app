@@ -12,6 +12,21 @@ mongoose.connect("process.env.MONGODB_URL", () => {
   console.log("connected to mongo db");
 });
 
+passport.serializeUser((user, callback) => {
+  callback(null, user.id);
+});
+
+// deserialize the cookieUserId to user in the database
+passport.deserializeUser((id, callback) => {
+  User.findById(id)
+    .then((user) => {
+      callback(null, user);
+    })
+    .catch((e) => {
+      callback(new Error("Failed to deserialize an user"));
+    });
+});
+
 passport.use(
   new Strategy(
     {
@@ -40,13 +55,13 @@ passport.use(
   )
 );
 
-passport.serializeUser(function (user, callback) {
-  callback(null, user);
-});
+// passport.serializeUser(function (user, callback) {
+//   callback(null, user);
+// });
 
-passport.deserializeUser(function (obj, callback) {
-  callback(null, obj);
-});
+// passport.deserializeUser(function (obj, callback) {
+//   callback(null, obj);
+// });
 
 const app = express();
 

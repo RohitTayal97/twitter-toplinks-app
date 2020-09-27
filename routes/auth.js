@@ -22,6 +22,9 @@ router.get("/login/failed", (req, res) => {
 router.get("/logout", (req, res) => {
   req.logout();
   res.redirect("/");
+  // req.session.destroy(function (err) {
+  //   res.redirect('/'); //Inside a callback… bulletproof!
+  // });
 });
 
 router.get("/twitter", passport.authenticate("twitter"));
