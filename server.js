@@ -15,8 +15,8 @@ mongoose.connect("process.env.MONGODB_URL", () => {
 passport.use(
   new Strategy(
     {
-      consumerKey: "process.env.TWITTER_CONSUMER_KEY",
-      consumerSecret: "process.env.TWITTER_CONSUMER_SECRET",
+      consumerKey: `${process.env.TWITTER_CONSUMER_KEY}`,
+      consumerSecret: `${process.env.TWITTER_CONSUMER_SECRET}`,
       callbackURL:
         "https://twitter-toplinks-app.herokuapp.com/auth/twitter/redirect",
     },
