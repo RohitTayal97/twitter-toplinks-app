@@ -32,10 +32,10 @@ passport.use(
           profileImageUrl: profile._json.profile_image_url,
         }).save();
         if (newUser) {
-          return callback(null, newUser);
+          callback(null, newUser);
         }
       }
-      return callback(null, currentUser);
+      callback(null, currentUser);
     }
   )
 );

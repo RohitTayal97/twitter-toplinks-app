@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const passport = require("passport");
-const CLIENT_HOME_PAGE_URL = "https://twitter-toplinks-app.herokuapp.com";
 
 router.get("/login/success", (req, res) => {
   if (req.user) {
@@ -8,6 +7,7 @@ router.get("/login/success", (req, res) => {
       success: true,
       message: "user has successfully authenticated",
       user: req.user,
+      cookies: req.cookies,
     });
   }
 });
@@ -21,7 +21,7 @@ router.get("/login/failed", (req, res) => {
 
 router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect(CLIENT_HOME_PAGE_URL);
+  res.redirect("/");
 });
 
 router.get("/twitter", passport.authenticate("twitter"));
@@ -29,9 +29,11 @@ router.get("/twitter", passport.authenticate("twitter"));
 router.get(
   "/twitter/redirect",
   passport.authenticate("twitter", {
-    successRedirect: CLIENT_HOME_PAGE_URL,
     failureRedirect: "/auth/login/failed",
-  })
+  }),
+  function (req, res) {
+    res.redirect("/");
+  }
 );
 
 module.exports = router;
