@@ -17,7 +17,8 @@ passport.use(
     {
       consumerKey: "process.env.TWITTER_CONSUMER_KEY",
       consumerSecret: "process.env.TWITTER_CONSUMER_SECRET",
-      callbackURL: "/auth/twitter/redirect",
+      callbackURL:
+        "https://twitter-toplinks-app.herokuapp.com/auth/twitter/redirect",
     },
     async (token, tokenSecret, profile, callback) => {
       const currentUser = await User.findOne({
