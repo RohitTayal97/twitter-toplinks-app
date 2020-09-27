@@ -24,11 +24,11 @@ export default class Header extends Component {
   }
 
   handleSignInClick = () => {
-    window.open("http://localhost:4000/auth/twitter", "_self");
+    window.open("/auth/twitter", "_self");
   };
 
   handleLogoutClick = () => {
-    window.open("http://localhost:4000/auth/logout", "_self");
+    window.open("/auth/logout", "_self");
     this.props.handleNotAuthenticated();
   };
 }

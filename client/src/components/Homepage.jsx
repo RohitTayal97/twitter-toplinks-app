@@ -20,9 +20,9 @@ export default class HomePage extends Component {
   };
 
   componentDidMount() {
-    // Fetch does not send cookies. So you should add credentials: 'include'
-    fetch("http://localhost:4000/auth/login/success", {
+    fetch("/auth/login/success", {
       method: "GET",
+      credentials: "include",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export default class HomePage extends Component {
       <div>
         <Header
           authenticated={authenticated}
-          handleNotAuthenticated={this._handleNotAuthenticated}
+          handleNotAuthenticated={this.handleNotAuthenticated}
         />
         <div>
           {!authenticated ? (
@@ -71,7 +71,7 @@ export default class HomePage extends Component {
     );
   }
 
-  _handleNotAuthenticated = () => {
+  handleNotAuthenticated = () => {
     this.setState({ authenticated: false });
   };
 }

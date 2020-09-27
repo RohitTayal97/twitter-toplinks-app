@@ -1,11 +1,11 @@
 require("dotenv").config();
+// const cookieSession = require("cookie-session");
+// const cookieParser = require("cookie-parser");
 const express = require("express");
-// const session = require("express-session");
 const passport = require("passport");
 const authRoutes = require("./routes/auth");
 const User = require("./models/users");
 const mongoose = require("mongoose");
-const cors = require("cors");
 var Strategy = require("passport-twitter").Strategy;
 
 mongoose.connect("process.env.MONGODB_URL", () => {
@@ -49,16 +49,20 @@ passport.deserializeUser(function (obj, callback) {
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  })
-);
+// app.use(
+//   cookieSession({
+//     name: "session",
+//     keys: "thisappisawesome",
+//     maxAge: 24 * 60 * 60 * 100,
+//   })
+// );
 
-// app.use(session);
+// app.use(cookieParser());
+
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(express.static("client/build"));
 
 app.use("/auth", authRoutes);
 
