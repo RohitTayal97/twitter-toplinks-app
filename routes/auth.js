@@ -32,21 +32,21 @@ router.get("/logout", (req, res) => {
   // });
 });
 
-router.get("/twitter", passport.authenticate("twitter"));
+// router.get("/twitter", passport.authenticate("twitter"));
 
-router.get(
-  "/twitter/redirect",
-  passport.authenticate("twitter", {
-    failureRedirect: "/auth/login/failed",
-  }),
-  function (req, res) {
-    console.log("#######hit 4");
-    // res.redirect("/");
-    res.json({
-      status: 200,
-      msg: "Login Successfully!!",
-    });
-  }
-);
+// router.get(
+//   "/twitter/redirect",
+//   passport.authenticate("twitter", {
+//     failureRedirect: "/auth/login/failed",
+//   }),
+//   function (req, res) {
+//     console.log("#######hit 4");
+//     // res.redirect("/");
+//     res.json({
+//       status: 200,
+//       msg: "Login Successfully!!",
+//     });
+//   }
+// );
 
 module.exports = router;

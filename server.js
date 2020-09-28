@@ -107,6 +107,23 @@ app.use(express.static("client/build"));
 
 app.use("/auth", authRoutes);
 
+router.get("/auth/twitter", passport.authenticate("twitter"));
+
+router.get(
+  "/auth/twitter/redirect",
+  passport.authenticate("twitter", {
+    failureRedirect: "/auth/login/failed",
+  }),
+  function (req, res) {
+    console.log("#######hit 4");
+    // res.redirect("/");
+    res.json({
+      status: 200,
+      msg: "Login Successfully!!",
+    });
+  }
+);
+
 const authCheck = (req, res, next) => {
   if (!req.user) {
     res.status(401).json({
