@@ -91,6 +91,15 @@ const app = express();
 // app.use(
 //   session({ secret: "keyboard cat", key: "sid", cookie: { secure: true } })
 // );
+
+app.use(require("body-parser").urlencoded({ extended: true }));
+app.use(
+  require("express-session")({
+    secret: "keyboard cat",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
