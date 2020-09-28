@@ -1,6 +1,6 @@
 require("dotenv").config();
-const cookieSession = require("cookie-session");
-const cookieParser = require("cookie-parser");
+// const cookieSession = require("cookie-session");
+// const cookieParser = require("cookie-parser");
 const express = require("express");
 const passport = require("passport");
 const authRoutes = require("./routes/auth");
@@ -50,20 +50,24 @@ passport.use(
       const currentUser = await User.findOne({
         twitterId: profile._json.id_str,
       });
+      const newUser = {
+        name: profile._json.name,
+        screenName: profile._json.screen_name,
+        twitterId: profile._json.id_str,
+        profileImageUrl: profile._json.profile_image_url,
+      };
       if (!currentUser) {
         console.log("#######hit 3");
-        const newUser = await new User({
-          name: profile._json.name,
-          screenName: profile._json.screen_name,
-          twitterId: profile._json.id_str,
-          profileImageUrl: profile._json.profile_image_url,
-        }).save();
-        if (newUser) {
+        const data = await User.create(newUser);
+        if (data) {
           return callback(null, newUser);
+        } else {
+          return callback({ status: "failed", msg: "Failed to create user" });
         }
+      } else {
+        console.log("#######hit 2");
+        return callback(null, newUser);
       }
-      console.log("#######hit 2");
-      return callback(null, currentUser);
     }
   )
 );
@@ -78,15 +82,15 @@ passport.use(
 
 const app = express();
 
-app.use(
-  cookieSession({
-    name: "session",
-    keys: "thisappisawesome",
-    maxAge: 24 * 60 * 60 * 100,
-  })
-);
+// app.use(
+//   cookieSession({
+//     name: "session",
+//     keys: "thisappisawesome",
+//     maxAge: 24 * 60 * 60 * 100,
+//   })
+// );
 
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // app.use(
 //   session({ secret: "keyboard cat", key: "sid", cookie: { secure: true } })
