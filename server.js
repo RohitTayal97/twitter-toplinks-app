@@ -18,23 +18,23 @@ if (process.env.DYNO) {
   trustProxy = true;
 }
 
-// passport.serializeUser((user, callback) => {
-//   console.log("###hit 5");
-//   callback(null, user.id);
-// });
+passport.serializeUser((user, callback) => {
+  console.log("###hit 5");
+  callback(null, user.id);
+});
 
-// // deserialize the cookieUserId to user in the database
-// passport.deserializeUser((id, callback) => {
-//   console.log("###hit 6");
-//   User.findById(id)
-//     .then((user) => {
-//       console.log("###hit 7");
-//       callback(null, user);
-//     })
-//     .catch((e) => {
-//       callback(new Error("Failed to deserialize an user"));
-//     });
-// });
+// deserialize the cookieUserId to user in the database
+passport.deserializeUser((id, callback) => {
+  console.log("###hit 6");
+  User.findById(id)
+    .then((user) => {
+      console.log("###hit 7");
+      callback(null, user);
+    })
+    .catch((e) => {
+      callback(new Error("Failed to deserialize an user"));
+    });
+});
 
 passport.use(
   new Strategy(
@@ -67,24 +67,6 @@ passport.use(
     }
   )
 );
-
-passport.serializeUser((user, callback) => {
-  console.log("###hit 5");
-  callback(null, user.id);
-});
-
-// deserialize the cookieUserId to user in the database
-passport.deserializeUser((id, callback) => {
-  console.log("###hit 6");
-  User.findById(id)
-    .then((user) => {
-      console.log("###hit 7");
-      callback(null, user);
-    })
-    .catch((e) => {
-      callback(new Error("Failed to deserialize an user"));
-    });
-});
 
 // passport.serializeUser(function (user, callback) {
 //   callback(null, user);
