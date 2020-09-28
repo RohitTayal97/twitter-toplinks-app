@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const path = require("path");
 const passport = require("passport");
 const authRoutes = require("./routes/auth");
 const User = require("./models/users");
@@ -66,28 +67,31 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(path.join(__dirname, express.static("client/build")));
+app.use(express.static("client/build"));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
 
 app.use("/auth", authRoutes);
 
-const authCheck = (req, res, next) => {
-  if (!req.user) {
-    res.status(401).json({
-      authenticated: false,
-      message: "user has not been authenticated",
-    });
-  } else {
-    next();
-  }
-};
+// const authCheck = (req, res, next) => {
+//   if (!req.user) {
+//     res.status(401).json({
+//       authenticated: false,
+//       message: "user has not been authenticated",
+//     });
+//   } else {
+//     next();
+//   }
+// };
 
-app.get("/", authCheck, (req, res) => {
-  res.status(200).json({
-    authenticated: true,
-    message: "user successfully authenticated",
-    user: req.user,
-  });
-});
+// app.get("/", authCheck, (req, res) => {
+//   res.status(200).json({
+//     authenticated: true,
+//     message: "user successfully authenticated",
+//     user: req.user,
+//   });
+// });
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`Server is running on port ${port}!`));
