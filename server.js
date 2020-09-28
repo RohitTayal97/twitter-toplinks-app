@@ -1,6 +1,6 @@
 require("dotenv").config();
-// const cookieSession = require("cookie-session");
-// const cookieParser = require("cookie-parser");
+const cookieSession = require("cookie-session");
+const cookieParser = require("cookie-parser");
 const express = require("express");
 const passport = require("passport");
 const authRoutes = require("./routes/auth");
@@ -78,15 +78,15 @@ passport.use(
 
 const app = express();
 
-// app.use(
-//   cookieSession({
-//     name: "session",
-//     keys: "thisappisawesome",
-//     maxAge: 24 * 60 * 60 * 100,
-//   })
-// );
+app.use(
+  cookieSession({
+    name: "session",
+    keys: "thisappisawesome",
+    maxAge: 24 * 60 * 60 * 100,
+  })
+);
 
-// app.use(cookieParser());
+app.use(cookieParser());
 
 // app.use(
 //   session({ secret: "keyboard cat", key: "sid", cookie: { secure: true } })
