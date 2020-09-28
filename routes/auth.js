@@ -35,6 +35,7 @@ router.get(
     failureRedirect: "/auth/login/failed",
   }),
   function (req, res) {
+    console.log("#######hit 4");
     res.redirect("/");
   }
 );

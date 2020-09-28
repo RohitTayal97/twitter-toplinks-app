@@ -36,10 +36,12 @@ passport.use(
         "https://twitter-toplinks-app.herokuapp.com/auth/twitter/redirect",
     },
     async (token, tokenSecret, profile, callback) => {
+      console.log(token, profile, "#######hit 1");
       const currentUser = await User.findOne({
         twitterId: profile._json.id_str,
       });
       if (!currentUser) {
+        console.log("#######hit 3");
         const newUser = await new User({
           name: profile._json.name,
           screenName: profile._json.screen_name,
@@ -50,6 +52,7 @@ passport.use(
           callback(null, newUser);
         }
       }
+      console.log("#######hit 2");
       callback(null, currentUser);
     }
   )
@@ -82,24 +85,24 @@ app.use(express.static("client/build"));
 
 app.use("/auth", authRoutes);
 
-// const authCheck = (req, res, next) => {
-//   if (!req.user) {
-//     res.status(401).json({
-//       authenticated: false,
-//       message: "user has not been authenticated",
-//     });
-//   } else {
-//     next();
-//   }
-// };
+const authCheck = (req, res, next) => {
+  if (!req.user) {
+    res.status(401).json({
+      authenticated: false,
+      message: "user has not been authenticated",
+    });
+  } else {
+    next();
+  }
+};
 
-// app.get("/", authCheck, (req, res) => {
-//   res.status(200).json({
-//     authenticated: true,
-//     message: "user successfully authenticated",
-//     user: req.user,
-//   });
-// });
+app.get("/", authCheck, (req, res) => {
+  res.status(200).json({
+    authenticated: true,
+    message: "user successfully authenticated",
+    user: req.user,
+  });
+});
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`Server is running on port ${port}!`));
