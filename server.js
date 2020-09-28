@@ -71,19 +71,19 @@ passport.use(
 
 const app = express();
 
-// app.use(
-//   cookieSession({
-//     name: "session",
-//     keys: "thisappisawesome",
-//     maxAge: 24 * 60 * 60 * 100,
-//   })
-// );
-
-// app.use(cookieParser());
-
 app.use(
-  session({ secret: "keyboard cat", key: "sid", cookie: { secure: true } })
+  cookieSession({
+    name: "session",
+    keys: "thisappisawesome",
+    maxAge: 24 * 60 * 60 * 100,
+  })
 );
+
+app.use(cookieParser());
+
+// app.use(
+//   session({ secret: "keyboard cat", key: "sid", cookie: { secure: true } })
+// );
 app.use(passport.initialize());
 app.use(passport.session());
 
