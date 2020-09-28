@@ -107,9 +107,9 @@ app.use(express.static("client/build"));
 
 app.use("/auth", authRoutes);
 
-router.get("/auth/twitter", passport.authenticate("twitter"));
+app.get("/auth/twitter", passport.authenticate("twitter"));
 
-router.get(
+app.get(
   "/auth/twitter/redirect",
   passport.authenticate("twitter", {
     failureRedirect: "/auth/login/failed",
