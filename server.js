@@ -56,7 +56,7 @@ passport.deserializeUser(function (obj, callback) {
 
 const app = express();
 
-// app.use(require("body-parser").urlencoded({ extended: true }));
+app.use(require("body-parser").urlencoded({ extended: true }));
 app.use(
   require("express-session")({
     secret: "keyboard cat",
@@ -68,11 +68,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static("client/build"));
+app.use("/auth", authRoutes);
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
-
-app.use("/auth", authRoutes);
 
 // const authCheck = (req, res, next) => {
 //   if (!req.user) {
