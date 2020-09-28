@@ -8,6 +8,4 @@ const userSchema = new Schema({
   profileImageUrl: String,
 });
 
-const User = mongoose.model("user", userSchema);
-
-module.exports = User;
+module.exports = mongoose.model("User", userSchema);
