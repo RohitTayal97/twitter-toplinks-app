@@ -12,6 +12,12 @@ mongoose.connect("process.env.MONGODB_URL", () => {
   console.log("connected to mongo db");
 });
 
+var trustProxy = false;
+if (process.env.DYNO) {
+  // Apps on heroku are behind a trusted proxy
+  trustProxy = true;
+}
+
 passport.serializeUser((user, callback) => {
   console.log("###hit 5");
   callback(null, user.id);
@@ -37,6 +43,7 @@ passport.use(
       consumerSecret: `${process.env.TWITTER_CONSUMER_SECRET}`,
       callbackURL:
         "https://twitter-toplinks-app.herokuapp.com/auth/twitter/redirect",
+      proxy: trustProxy,
     },
     async (token, tokenSecret, profile, callback) => {
       console.log(token, profile, "#######hit 1");
@@ -52,11 +59,11 @@ passport.use(
           profileImageUrl: profile._json.profile_image_url,
         }).save();
         if (newUser) {
-          callback(null, newUser);
+          return callback(null, newUser);
         }
       }
       console.log("#######hit 2");
-      callback(null, currentUser);
+      return callback(null, currentUser);
     }
   )
 );
