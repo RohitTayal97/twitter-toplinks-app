@@ -13,13 +13,16 @@ mongoose.connect("process.env.MONGODB_URL", () => {
 });
 
 passport.serializeUser((user, callback) => {
+  console.log("###hit 5");
   callback(null, user.id);
 });
 
 // deserialize the cookieUserId to user in the database
 passport.deserializeUser((id, callback) => {
+  console.log("###hit 6");
   User.findById(id)
     .then((user) => {
+      console.log("###hit 7");
       callback(null, user);
     })
     .catch((e) => {
@@ -68,16 +71,19 @@ passport.use(
 
 const app = express();
 
+// app.use(
+//   cookieSession({
+//     name: "session",
+//     keys: "thisappisawesome",
+//     maxAge: 24 * 60 * 60 * 100,
+//   })
+// );
+
+// app.use(cookieParser());
+
 app.use(
-  cookieSession({
-    name: "session",
-    keys: "thisappisawesome",
-    maxAge: 24 * 60 * 60 * 100,
-  })
+  session({ secret: "keyboard cat", key: "sid", cookie: { secure: true } })
 );
-
-app.use(cookieParser());
-
 app.use(passport.initialize());
 app.use(passport.session());
 
