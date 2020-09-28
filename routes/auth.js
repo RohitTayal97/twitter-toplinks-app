@@ -9,11 +9,6 @@ router.get("/login/success", (req, res) => {
       message: "user has successfully authenticated",
       user: req.user,
     });
-  } else {
-    res.status(401).json({
-      success: false,
-      message: "user is not authenticated",
-    });
   }
 });
 
@@ -32,21 +27,17 @@ router.get("/logout", (req, res) => {
   // });
 });
 
-// router.get("/twitter", passport.authenticate("twitter"));
+router.get("/twitter", passport.authenticate("twitter"));
 
-// router.get(
-//   "/twitter/redirect",
-//   passport.authenticate("twitter", {
-//     failureRedirect: "/auth/login/failed",
-//   }),
-//   function (req, res) {
-//     console.log("#######hit 4");
-//     // res.redirect("/");
-//     res.json({
-//       status: 200,
-//       msg: "Login Successfully!!",
-//     });
-//   }
-// );
+router.get(
+  "/twitter/redirect",
+  passport.authenticate("twitter", {
+    failureRedirect: "/auth/login/failed",
+  }),
+  function (req, res) {
+    console.log("#######hit 4");
+    res.redirect("/");
+  }
+);
 
 module.exports = router;
