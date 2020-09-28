@@ -7,7 +7,6 @@ router.get("/login/success", (req, res) => {
       success: true,
       message: "user has successfully authenticated",
       user: req.user,
-      cookies: req.cookies,
     });
   }
 });
@@ -36,7 +35,11 @@ router.get(
   }),
   function (req, res) {
     console.log("#######hit 4");
-    res.redirect("/");
+    // res.redirect("/");
+    res.json({
+      status: 200,
+      msg: "Login Successfully!!",
+    });
   }
 );
 

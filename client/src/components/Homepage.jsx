@@ -22,7 +22,7 @@ export default class HomePage extends Component {
   componentDidMount() {
     fetch("/auth/login/success", {
       method: "GET",
-      credentials: "include",
+      // credentials: "include",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

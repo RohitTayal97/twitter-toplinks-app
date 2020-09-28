@@ -1,6 +1,6 @@
 require("dotenv").config();
-const cookieSession = require("cookie-session");
-const cookieParser = require("cookie-parser");
+// const cookieSession = require("cookie-session");
+// const cookieParser = require("cookie-parser");
 const express = require("express");
 const passport = require("passport");
 const authRoutes = require("./routes/auth");
@@ -18,23 +18,23 @@ if (process.env.DYNO) {
   trustProxy = true;
 }
 
-passport.serializeUser((user, callback) => {
-  console.log("###hit 5");
-  callback(null, user.id);
-});
+// passport.serializeUser((user, callback) => {
+//   console.log("###hit 5");
+//   callback(null, user.id);
+// });
 
-// deserialize the cookieUserId to user in the database
-passport.deserializeUser((id, callback) => {
-  console.log("###hit 6");
-  User.findById(id)
-    .then((user) => {
-      console.log("###hit 7");
-      callback(null, user);
-    })
-    .catch((e) => {
-      callback(new Error("Failed to deserialize an user"));
-    });
-});
+// // deserialize the cookieUserId to user in the database
+// passport.deserializeUser((id, callback) => {
+//   console.log("###hit 6");
+//   User.findById(id)
+//     .then((user) => {
+//       console.log("###hit 7");
+//       callback(null, user);
+//     })
+//     .catch((e) => {
+//       callback(new Error("Failed to deserialize an user"));
+//     });
+// });
 
 passport.use(
   new Strategy(
@@ -68,6 +68,24 @@ passport.use(
   )
 );
 
+passport.serializeUser((user, callback) => {
+  console.log("###hit 5");
+  callback(null, user.id);
+});
+
+// deserialize the cookieUserId to user in the database
+passport.deserializeUser((id, callback) => {
+  console.log("###hit 6");
+  User.findById(id)
+    .then((user) => {
+      console.log("###hit 7");
+      callback(null, user);
+    })
+    .catch((e) => {
+      callback(new Error("Failed to deserialize an user"));
+    });
+});
+
 // passport.serializeUser(function (user, callback) {
 //   callback(null, user);
 // });
@@ -78,15 +96,15 @@ passport.use(
 
 const app = express();
 
-app.use(
-  cookieSession({
-    name: "session",
-    keys: "thisappisawesome",
-    maxAge: 24 * 60 * 60 * 100,
-  })
-);
+// app.use(
+//   cookieSession({
+//     name: "session",
+//     keys: "thisappisawesome",
+//     maxAge: 24 * 60 * 60 * 100,
+//   })
+// );
 
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // app.use(
 //   session({ secret: "keyboard cat", key: "sid", cookie: { secure: true } })
