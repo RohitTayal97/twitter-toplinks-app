@@ -2,11 +2,17 @@ const router = require("express").Router();
 const passport = require("passport");
 
 router.get("/login/success", (req, res) => {
+  console.log("###hitt 7");
   if (req.user) {
     res.json({
       success: true,
       message: "user has successfully authenticated",
       user: req.user,
+    });
+  } else {
+    res.status(401).json({
+      success: false,
+      message: "user is not authenticated",
     });
   }
 });

@@ -92,7 +92,7 @@ const app = express();
 //   session({ secret: "keyboard cat", key: "sid", cookie: { secure: true } })
 // );
 
-app.use(require("body-parser").urlencoded({ extended: true }));
+// app.use(require("body-parser").urlencoded({ extended: true }));
 app.use(
   require("express-session")({
     secret: "keyboard cat",
