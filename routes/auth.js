@@ -36,7 +36,8 @@ router.get(
   }),
   function (req, res) {
     console.log("#######hit 4");
-    res.redirect("/");
+    window.open("/", "_self");
+    // res.redirect("/");
   }
 );
 
